@@ -29,7 +29,9 @@ func GetQueryCmd(queryRoute string, cdc *codec.Codec) *cobra.Command {
 
 	cosmostictactoeQueryCmd.AddCommand(
 		flags.GetCommands(
-		// this line is used by starport scaffolding # 1
+			// this line is used by starport scaffolding # 1
+			GetCmdListGame(queryRoute, cdc),
+			GetCmdGetGame(queryRoute, cdc),
 		)...,
 	)
 
