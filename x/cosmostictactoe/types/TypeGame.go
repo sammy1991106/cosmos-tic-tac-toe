@@ -20,4 +20,5 @@ type Game struct {
 	UpdatedAt  int64          `json:"updatedAt" yaml:"updatedAt"`
 	Round      uint8          `json:"round" yaml:"round"`
 	Fields     [9]string      `json:"fields" yaml:"fields"`
+	Timeout    int64          `json:"timeout" yaml:"timeout"`
 }

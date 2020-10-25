@@ -28,6 +28,7 @@ func handleMsgCreateGame(ctx sdk.Context, k keeper.Keeper, msg types.MsgCreateGa
 		UpdatedAt:  ctx.BlockHeight(),
 		Round:      0,
 		Fields:     fields,
+		Timeout:    msg.Timeout,
 	}
 	k.CreateGame(ctx, game)
 

@@ -25,6 +25,8 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			return handleMsgJoinGame(ctx, k, msg)
 		case types.MsgCreateGameMove:
 			return handleMsgCreateGameMove(ctx, k, msg)
+		case types.MsgChallengeGameTimeout:
+			return handleMsgChallengeGameTimeout(ctx, k, msg)
 		default:
 			errMsg := fmt.Sprintf("Unrecognized %s message type: %T", types.ModuleName, msg)
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, errMsg)
