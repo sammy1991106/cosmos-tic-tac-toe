@@ -10,6 +10,7 @@ func RegisterCodec(cdc *codec.Codec) {
 	cdc.RegisterConcrete(MsgCreateGame{}, "cosmostictactoe/CreateGame", nil)
 	cdc.RegisterConcrete(MsgJoinGame{}, "cosmostictactoe/JoinGame", nil)
 	cdc.RegisterConcrete(MsgCreateGameMove{}, "cosmostictactoe/CreateGameMove", nil)
+	cdc.RegisterConcrete(MsgChallengeGameTimeout{}, "cosmostictactoe/ChallengeGameTimeout", nil)
 }
 
 // ModuleCdc defines the module codec

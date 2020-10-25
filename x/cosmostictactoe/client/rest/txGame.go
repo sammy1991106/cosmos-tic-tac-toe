@@ -18,6 +18,7 @@ type createGameRequest struct {
 	BaseReq rest.BaseReq `json:"base_req"`
 	Creator string       `json:"creator"`
 	Bet     string       `json:"bet"`
+	Timeout string       `json:"timeout"`
 }
 
 func createGameHandler(cliCtx context.CLIContext) http.HandlerFunc {
@@ -43,9 +44,16 @@ func createGameHandler(cliCtx context.CLIContext) http.HandlerFunc {
 			return
 		}
 
+		parsedTimeout, err := strconv.ParseInt(req.Timeout, 10, 64)
+		if err != nil {
+			rest.WriteErrorResponse(w, http.StatusBadRequest, err.Error())
+			return
+		}
+
 		msg := types.NewMsgCreateGame(
 			creator,
 			parsedBet,
+			parsedTimeout,
 		)
 
 		err = msg.ValidateBasic()

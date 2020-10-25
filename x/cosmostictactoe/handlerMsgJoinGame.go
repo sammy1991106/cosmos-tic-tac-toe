@@ -10,7 +10,7 @@ import (
 )
 
 func getGameTurn(blockHash []byte, initiator sdk.AccAddress, challenger sdk.AccAddress) sdk.AccAddress {
-	bytes := append(blockHash[:], []byte(initiator.String() + challenger.String())[:]...)
+	bytes := append(blockHash, []byte(initiator.String()+challenger.String())...)
 
 	if (sha3.Sum256(bytes)[0]>>7)&1 == 0 {
 		return initiator

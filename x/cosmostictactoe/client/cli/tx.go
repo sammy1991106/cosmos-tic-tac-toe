@@ -26,6 +26,7 @@ func GetTxCmd(cdc *codec.Codec) *cobra.Command {
 		GetCmdCreateGame(cdc),
 		GetCmdJoinGame(cdc),
 		GetCmdCreateGameMove(cdc),
+		GetCmdChallengeGameTimeout(cdc),
 	)...)
 
 	return cosmostictactoeTxCmd

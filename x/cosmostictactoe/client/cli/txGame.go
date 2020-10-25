@@ -16,16 +16,17 @@ import (
 
 func GetCmdCreateGame(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "create-game [bet]",
+		Use:   "create-game [bet] [timeout]",
 		Short: "Creates a new game",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			bet, _ := strconv.ParseInt(args[0], 10, 64)
+			timeout, _ := strconv.ParseInt(args[1], 10, 64)
 
 			cliCtx := context.NewCLIContext().WithCodec(cdc)
 			inBuf := bufio.NewReader(cmd.InOrStdin())
 			txBldr := auth.NewTxBuilderFromCLI(inBuf).WithTxEncoder(utils.GetTxEncoder(cdc))
-			msg := types.NewMsgCreateGame(cliCtx.GetFromAddress(), int64(bet))
+			msg := types.NewMsgCreateGame(cliCtx.GetFromAddress(), bet, timeout)
 			err := msg.ValidateBasic()
 
 			if err != nil {
@@ -74,6 +75,29 @@ func GetCmdCreateGameMove(cdc *codec.Codec) *cobra.Command {
 			inBuf := bufio.NewReader(cmd.InOrStdin())
 			txBldr := auth.NewTxBuilderFromCLI(inBuf).WithTxEncoder(utils.GetTxEncoder(cdc))
 			msg := types.NewMsgCreateGameMove(cliCtx.GetFromAddress(), id, uint8(row), uint8(column))
+			err := msg.ValidateBasic()
+
+			if err != nil {
+				return err
+			}
+
+			return utils.GenerateOrBroadcastMsgs(cliCtx, txBldr, []sdk.Msg{msg})
+		},
+	}
+}
+
+func GetCmdChallengeGameTimeout(cdc *codec.Codec) *cobra.Command {
+	return &cobra.Command{
+		Use:   "challenge-game-timeout [id]",
+		Short: "Challenge the game for timout",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			id := args[0]
+
+			cliCtx := context.NewCLIContext().WithCodec(cdc)
+			inBuf := bufio.NewReader(cmd.InOrStdin())
+			txBldr := auth.NewTxBuilderFromCLI(inBuf).WithTxEncoder(utils.GetTxEncoder(cdc))
+			msg := types.NewMsgChallengeGameTimeout(cliCtx.GetFromAddress(), id)
 			err := msg.ValidateBasic()
 
 			if err != nil {
